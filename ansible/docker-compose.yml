@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  ansible:
+    image: sample-vm
+    ports:
+      - "22:22"
+    # networks:
+    #   - frontend
+    #   - backend
+    networks:
+      appnet:
+          ipv4_address: 172.24.2.3
+  vm1:
+    image: sample-vm
+    ports:
+      - "22"
+    # networks:
+    #   - backend
+    networks:
+      appnet:
+          ipv4_address: 172.24.2.4
+  vm2:
+    image: sample-vm
+    ports:
+      - "22"
+    # networks:
+    #   - backend
+    networks:
+      appnet:
+          ipv4_address: 172.24.2.5
+  
+  # ansible-host:
+  #   image: quay.io/ansible/awx
+  #   ports: 
+  #     - "8080:443"
+  #   networks:
+  #     appnet:
+  #         ipv4_address: 172.24.2.6
+
+networks:
+  appnet:
+    driver: bridge
+    ipam:
+        driver: default
+        config:
+          - subnet: "172.24.2.0/16"
+  # frontend:
+  #   name: frontend
+  # backend:
+  #   name: backend
